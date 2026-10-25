@@ -1,0 +1,11 @@
+{
+  "title": "Paper previews",
+  "files": [{ "fileId": "PASTE_PAPER_FILE_ID" }],
+  "settleMs": 5000,
+  "pollSeconds": 300,
+  "publish": false,
+  "paperUrl": "http://127.0.0.1:29979/mcp",
+  "exportScale": "1x",
+  "deploymentConfig": "wrangler.local.jsonc",
+  "agentLabel": "dev.paper-previews.updater"
+}

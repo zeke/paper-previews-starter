@@ -1,0 +1,29 @@
+{
+  "name": "paper-previews",
+  "version": "1.0.0",
+  "description": "Self-hosted phone-viewable previews for Paper Desktop designs",
+  "scripts": {
+    "test": "node --test",
+    "check": "node scripts/check.mjs",
+    "update": "node scripts/update.mjs",
+    "install-agent": "node scripts/install-agent.mjs",
+    "format": "prettier --write src scripts test docs README.md CONTRIBUTING.md config.example.json wrangler.example.jsonc .github/workflows/test.yml",
+    "pause": "node scripts/pause.mjs",
+    "resume": "node scripts/pause.mjs resume"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "type": "commonjs",
+  "devDependencies": {
+    "jsonc-parser": "^3.3.1",
+    "prettier": "^3.9.10",
+    "wrangler": "^4.152.0"
+  },
+  "private": true,
+  "overrides": {
+    "undici": "^7.30.1"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

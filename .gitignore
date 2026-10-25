@@ -1,0 +1,12 @@
+node_modules/
+.wrangler/
+.state/
+releases/
+public/
+config.json
+wrangler.local.jsonc
+.dev.vars*
+.env*
+*.log
+*.plist
+.DS_Store
