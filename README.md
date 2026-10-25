@@ -1,3 +1,8 @@
+[Paper](https://paper.design) is a great desktop app for doing agent driven graphic design.
+
+This project makes those designs easy to review on your phone: select your files,
+run an updater on your Mac, and get shareable preview links hosted on Cloudflare.
+
 Paste this into your agent to build your own version of this service.
 
 ```text
@@ -7,10 +12,6 @@ https://github.com/zeke/paper-previews-starter
 ```
 
 # Paper previews
-
-[Paper](https://paper.design) is a great place to design on your desktop. This
-project makes those designs easy to review on your phone: select your files,
-run an updater on your Mac, and get shareable preview links hosted on Cloudflare.
 
 Previews keep tall designs at full height, show when they were captured, and keep
 the same board links as you iterate. Renames update the readable image filenames.
