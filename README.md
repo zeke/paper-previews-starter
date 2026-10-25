@@ -1,9 +1,12 @@
-[Paper](https://paper.design) is a great desktop app for doing agent driven graphic design.
+# Paper Previews
 
-This service makes those designs easy to review on your phone, with shareable
-preview links hosted on Cloudflare.
+[Paper](https://paper.design) is a desktop app for doing agent-driven graphic design.
 
-Paste this into your agent to build your own version of this service.
+Paper is great, but it's currently only available as a desktop app.
+
+I wanted to be able to see its output from my phone, so I built this little web app.
+
+Paste this into your agent to build your own version of this service:
 
 ```text
 Let's build our own preview service for our Paper app designs.
