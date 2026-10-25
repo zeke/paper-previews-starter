@@ -53,6 +53,14 @@ viewer links. Recreated boards get new identities. Content hashes version PNG
 URLs and deduplicate uploads. Metadata pages use `no-store`; versioned images are
 immutable. Capture times show freshness; viewers reload for the latest snapshot.
 
+The gallery lists newest designs first, with matching public/admin boards kept
+adjacent (public first). Complete creation timestamps, when exposed by Paper, are
+preferred. The current native API exposes no board creation time, so the fallback
+is a persistent first-discovery sequence, seeded from native page/artboard order
+on migration. This is an approximation, not an asserted creation date. Re-exports
+and image capture times never change design age. Keep the ordering stable across
+no-op polls and preserve existing IDs and image paths.
+
 Only selected PNGs, names, page labels and capture metadata are deployed. Never
 commit or publish raw inventory, native file/node IDs, file URLs, JSX, local paths,
 state, designs, logs, credentials or real instance configuration. Keep tests and

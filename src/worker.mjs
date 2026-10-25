@@ -82,7 +82,7 @@ export default {
     }
     return html(
       data.title,
-      `<header><h1>${escape(data.title)}</h1><small>${data.boards.length} designs · public link previews</small>${stamp}</header><main class="gallery">${data.boards.map((b) => `<figure><a href="${home}b/${b.id}"><img loading="lazy" src="${b.image}" width="${b.width}" height="${b.height}" alt="${escape(b.name)}"><figcaption><strong>${escape(b.name)}</strong><small>${escape(b.pageName)}</small><small>Captured ${escape(b.updatedAt)}</small></figcaption></a></figure>`).join("")}</main>`,
+      `<header><h1>${escape(data.title)}</h1><small>${data.boards.length} designs · newest first · public link previews</small>${stamp}</header><main class="gallery">${data.boards.map((b) => `<figure><a href="${home}b/${b.id}"><img loading="lazy" src="${b.image}" width="${b.width}" height="${b.height}" alt="${escape(b.name)}"><figcaption><strong>${escape(b.name)}</strong><small>${escape(b.pageName)}</small><small>Captured ${escape(b.updatedAt)}</small></figcaption></a></figure>`).join("")}</main>`,
     );
   },
 };

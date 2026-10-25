@@ -228,8 +228,22 @@ test("new boards are discovered only within the allowed file and keep existing l
     boards.push({ id: "second", name: "New completed board" });
     const after = await sync(options);
     assert.equal(after.manifest.boards.length, 2);
-    assert.equal(after.manifest.boards[0].id, before.manifest.boards[0].id);
+    assert.equal(
+      after.manifest.boards.find((b) => b.nodeId === "first").id,
+      before.manifest.boards[0].id,
+    );
+    assert.deepEqual(
+      after.manifest.boards.map((b) => b.nodeId),
+      ["second", "first"],
+    );
     assert.equal(exports, 2);
+    const unchanged = await sync(options);
+    assert.equal(unchanged.changed, false);
+    assert.equal(exports, 2);
+    assert.deepEqual(
+      unchanged.manifest.boards.map((b) => b.id),
+      after.manifest.boards.map((b) => b.id),
+    );
     const release = await readFile(
       path.join(root, ".state/release.json"),
       "utf8",

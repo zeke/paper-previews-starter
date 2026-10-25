@@ -53,6 +53,12 @@ interval that fits your plan. This is polling, not an instant change webhook.
 
 ## Links, freshness and failures
 
+Designs appear newest first, with public/admin pairs together. When complete
+creation metadata is unavailable, persistent first-discovery order is used,
+initially seeded from Paper's page/artboard sequence. This approximates design
+age; it does not use image capture or modification times. The manifest identifies
+which ordering basis was used. Re-exporting an older design does not promote it.
+
 Gallery and board identifiers are UUIDv4 values with 122 random bits. A board's
 viewer URL stays stable when its name changes. The PNG filename follows the
 current name, and its URL includes a SHA-256 content hash. Unchanged images are

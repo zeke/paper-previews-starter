@@ -8,6 +8,7 @@ import {
   unlink,
 } from "node:fs/promises";
 import path from "node:path";
+import { creationTimestamp, orderDesigns, ORDERING_VERSION } from "./order.mjs";
 export const hash = (value) => createHash("sha256").update(value).digest("hex");
 export const slug = (name) =>
   name
@@ -68,6 +69,7 @@ export async function inventory(paper, config) {
           fileName: info.fileName,
           pageName: info.pageName,
           name: board.name,
+          sourceCreatedAt: creationTimestamp(board.createdAt),
         };
         // Token metadata participates: JSX may reference CSS variables.
         const sourceHash = hash(
@@ -111,6 +113,10 @@ export async function sync({
   if (signature(first) !== signature(second))
     throw Error("Design still changing; previous release preserved");
   const next = [];
+  let nextSequence = Math.max(
+    0,
+    ...prior.boards.map((board) => board.createdSequence ?? 0),
+  );
   let changed =
     prior.boards.length !== second.length ||
     prior.title !== config.title ||
@@ -120,14 +126,18 @@ export async function sync({
       (b) => b.fileId === board.fileId && b.nodeId === board.nodeId,
     );
     const refresh = old && refreshIds.includes(old.id);
+    const chronology = {
+      createdSequence: old?.createdSequence ?? ++nextSequence,
+      sourceCreatedAt: board.sourceCreatedAt ?? old?.sourceCreatedAt ?? null,
+    };
     if (old?.sourceHash === board.sourceHash && !refresh) {
-      next.push(old);
+      next.push({ ...old, ...chronology });
       continue;
     }
     changed = true;
     const key = `${board.fileId}/${board.nodeId}`;
     if (staged[key]?.sourceHash === board.sourceHash && !refresh) {
-      next.push(staged[key]);
+      next.push({ ...staged[key], ...chronology });
       continue;
     }
     let result, exported;
@@ -160,6 +170,7 @@ export async function sync({
     await unlink(exported);
     const entry = {
       ...board,
+      ...chronology,
       ...size,
       id: old?.id ?? randomUUID(),
       imageHash,
@@ -169,6 +180,12 @@ export async function sync({
     staged[key] = entry;
     await atomicJSON(path.join(stateDir, "staged.json"), staged);
   }
+  const ordered = orderDesigns(next);
+  changed ||=
+    prior.orderingVersion !== ORDERING_VERSION ||
+    prior.orderingBasis !== ordered.basis ||
+    prior.boards.map((board) => board.id).join() !==
+      ordered.boards.map((board) => board.id).join();
   // Reject a partial edit even if it happened during native image rendering.
   if (
     changed &&
@@ -183,13 +200,15 @@ export async function sync({
     pollSeconds: config.pollSeconds,
     revision: randomUUID(),
     updatedAt: now,
-    boards: next,
+    orderingVersion: ORDERING_VERSION,
+    orderingBasis: ordered.basis,
+    boards: ordered.boards,
   };
   // Complete immutable release before making it eligible for publishing.
   const release = path.resolve(root, "releases", manifest.revision);
   await mkdir(release, { recursive: true });
   const publicBoards = [];
-  for (const board of next) {
+  for (const board of manifest.boards) {
     const relative = `g/${manifest.galleryId}/images/${board.id}/${board.imageHash}/${slug(board.name)}.png`;
     const dest = path.join(release, relative);
     await mkdir(path.dirname(dest), { recursive: true });
@@ -215,6 +234,8 @@ export async function sync({
     revision: manifest.revision,
     updatedAt: now,
     pollSeconds: config.pollSeconds,
+    ordering: "newest-design-first",
+    orderingBasis: ordered.basis,
     boards: publicBoards,
   };
   await mkdir(path.join(release, "g", manifest.galleryId), { recursive: true });
