@@ -1,5 +1,9 @@
 # Project context
 
+Keep this file current. Whenever you make a meaningful change to the project
+(architecture, scripts, configuration, deployment, gotchas), update this file in
+the same change.
+
 Paper Previews is a self-hosted preview service. A local Node process reads
 explicitly selected files through Paper Desktop's native MCP API, exports PNGs,
 and deploys a complete gallery to Cloudflare Workers with static assets. Public

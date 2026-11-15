@@ -23,6 +23,10 @@ https://github.com/zeke/paper-previews-starter
 
 See [AGENTS.md](AGENTS.md) for setup, architecture, deployment and development.
 
+## Related
+
+[zeke/paper-to-web](https://github.com/zeke/paper-to-web) publishes a single Paper page as a pannable, zoomable web page, with each artboard at its canvas position.
+
 ## License
 
 [MIT](LICENSE)
